@@ -39,6 +39,9 @@ module SendGridActionMailer
         response = sendgrid_mail
       else
         response = perform_send_request(sendgrid_mail)
+        if (message_id = response.headers["x-message-id"].first)
+          mail.message_id = message_id
+        end
       end
 
       settings[:return_response] ? response : self
